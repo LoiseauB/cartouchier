@@ -1,56 +1,41 @@
-import { useEffect, useState } from "react";
+import { FileSearchIcon } from "@phosphor-icons/react";
+import { useState } from "react";
 import { ScanResultType } from "../electron/api/ScanService";
+import Folder from "./components/Folder";
+import { ThemeProvider } from "./components/theme-provider";
+import { Accordion } from "./components/ui/accordion";
+import { Button } from "./components/ui/button";
 
 function App() {
-  const [folderToScan, setFolderToScan] = useState<string>("");
   const [scanResult, setScanResult] = useState<ScanResultType | null>(null);
 
   const handleScan = async () => {
-    const result = await window.ipcRenderer.invoke("scanFolder", folderToScan);
+    const result = await window.ipcRenderer.invoke("scanFolder");
     setScanResult(result);
   };
-  
-  useEffect(() => {
-    handleScan();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [folderToScan]);
 
   return (
-    <>
-      <h1>Vite + React</h1>
-      <div>
-        <button onClick={handleScan}>Scan</button>{" "}
-        <button onClick={() => setFolderToScan("")}>reset</button>
-      </div>
-      {scanResult && (
-        <section>
-          <h2>Folders</h2>
-          {scanResult.folders.length === 0 && <p>No folders found</p>}
-          <ul>
-            {scanResult.folders.map((folder) => (
-              <li>
-                <button
-                onClick={() => {
-                  setFolderToScan((prev) => prev + "/" + folder);
-                  handleScan();
-                }}
-                key={folder}
-              >
-                🗂️ {folder}
-                </button>
-              </li>
-            ))}
-          </ul>
-          <h2>Files</h2>
-          {scanResult.files.length === 0 && <p>No files found</p>}
-          <ul>
-            {scanResult.files.map((file) => (
-              <li key={file.name}>🎵 {file.name}</li>
-            ))}
-          </ul>
-        </section>
-      )}
-    </>
+    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+      <main className="relative flex flex-col mx-auto justify-center items-center gap-6 my-10">
+        <div>
+          <Button onClick={handleScan} variant="outline" size="lg">
+            <FileSearchIcon size={8} className="size-8"/>
+            Scan
+          </Button>{" "}
+        </div>
+        {scanResult && (
+          <section className="w-8/12">
+            <Accordion multiple>
+              <h2>Folders</h2>
+              {scanResult.folders.length === 0 && <p>No folders found</p>}
+              {scanResult.folders.map((folder) => (
+                <Folder key={folder} folder={folder} />
+              ))}
+            </Accordion>
+          </section>
+        )}
+      </main>
+    </ThemeProvider>
   );
 }
 
