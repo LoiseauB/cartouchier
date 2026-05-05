@@ -16,7 +16,7 @@ export class ScanService {
   }
 
   /*
-   * Scans the directory to get folders and files name
+   * Scans the directory to get folders and files
    * @param folder - The folder to scan
    * @returns Promise<ScanResultType> - The folders and files name/path
    */

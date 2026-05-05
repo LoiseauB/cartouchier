@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { ScanResultType } from "../electron/api/ScanService";
-import "./App.css";
 
 function App() {
   const [folderToScan, setFolderToScan] = useState<string>("");
