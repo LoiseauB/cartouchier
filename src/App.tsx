@@ -1,39 +1,35 @@
-import { FileSearchIcon } from "@phosphor-icons/react";
 import { useState } from "react";
-import { ScanResultType } from "../electron/api/ScanService";
-import Folder from "./components/Folder";
+import FoldersCard from "./components/FoldersCard";
 import { ThemeProvider } from "./components/theme-provider";
-import { Accordion } from "./components/ui/accordion";
 import { Button } from "./components/ui/button";
 
 function App() {
-  const [scanResult, setScanResult] = useState<ScanResultType | null>(null);
-
-  const handleScan = async () => {
-    const result = await window.ipcRenderer.invoke("scanFolder");
-    setScanResult(result);
-  };
-
+  const [page, setPage] = useState<"app" | "settings">("app");
   return (
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-      <main className="relative flex flex-col mx-auto justify-center items-center gap-6 my-10">
-        <div>
-          <Button onClick={handleScan} variant="outline" size="lg">
-            <FileSearchIcon size={8} className="size-8"/>
-            Scan
-          </Button>{" "}
+      <header className="w-full flex justify-center px-2">
+        <div className="w-full relative top-0 left-0 border-2 border-t-0 border-foreground/10 min-h-5 p-2">
+          <nav>
+            <Button
+              onClick={() => setPage("app")}
+              variant="link"
+              className="text-foreground font-semibold text-xl"
+            >
+              Application
+            </Button>
+            <Button
+              onClick={() => setPage("settings")}
+              variant="link"
+              className="text-foreground font-semibold text-xl"
+            >
+              Paramètres
+            </Button>
+          </nav>
         </div>
-        {scanResult && (
-          <section className="w-8/12">
-            <Accordion multiple>
-              <h2>Folders</h2>
-              {scanResult.folders.length === 0 && <p>No folders found</p>}
-              {scanResult.folders.map((folder) => (
-                <Folder key={folder} folder={folder} />
-              ))}
-            </Accordion>
-          </section>
-        )}
+      </header>
+      <main className="relative flex gap-2 p-2 items-stretch">
+        {page === "app" && <FoldersCard />}
+        {page === "settings" && <div>paramètres</div>}
       </main>
     </ThemeProvider>
   );

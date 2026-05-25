@@ -52,11 +52,11 @@ function createWindow() {
   }
   
   ipcMain.handle("scanFolder", (event, folderName) => {
-    const scanService = new ScanService("/Users/baptisteloiseau/Music");
+    const scanService = new ScanService("/Users/bapt/Music");
     return scanService.scanFolders(folderName);
   });
   
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common

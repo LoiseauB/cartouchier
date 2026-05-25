@@ -50,8 +50,8 @@ const Folder = ({
               parentFolder={parentFolder ? `${parentFolder}/${folder}` : folder}
             />
           ))}
-          <h2>Files</h2>
-          {scanResult.files.length === 0 && <p>No files found</p>}
+          <h2>Musiques :</h2>
+          {scanResult.files.length === 0 && <p>Aucun fichier trouvé</p>}
           <ul>
             {scanResult.files.map((file) => (
               <li key={file.name}>🎵 {file.name}</li>
