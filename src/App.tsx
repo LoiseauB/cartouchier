@@ -1,5 +1,6 @@
 import { useState } from "react";
 import FoldersCard from "./components/FoldersCard";
+import RootFolderForm from "./components/RootFolderForm";
 import { ThemeProvider } from "./components/theme-provider";
 import { Button } from "./components/ui/button";
 
@@ -29,7 +30,11 @@ function App() {
       </header>
       <main className="relative flex gap-2 p-2 items-stretch">
         {page === "app" && <FoldersCard />}
-        {page === "settings" && <div>paramètres</div>}
+        {page === "settings" && (
+          <div className="w-full">
+            <RootFolderForm />
+          </div>
+        )}
       </main>
     </ThemeProvider>
   );

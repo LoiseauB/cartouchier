@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, dialog, ipcMain } from "electron";
 import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -55,8 +55,14 @@ function createWindow() {
     const scanService = new ScanService("/Users/bapt/Music");
     return scanService.scanFolders(folderName);
   });
+
+  ipcMain.handle('choose-folder', async () => {
+  const result = await dialog.showOpenDialog({ properties: ['openDirectory'] });
+  if (result.canceled) return null;
+  return result.filePaths[0];
+});
   
-  // win.webContents.openDevTools();
+  win.webContents.openDevTools();
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common

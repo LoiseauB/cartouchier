@@ -1,4 +1,4 @@
-import { FolderIcon, FolderOpenIcon } from "@phosphor-icons/react";
+import { FolderIcon, FolderOpenIcon, MusicNoteIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import { ScanResultType } from "../../electron/api/ScanService";
 import {
@@ -54,7 +54,7 @@ const Folder = ({
           {scanResult.files.length === 0 && <p>Aucun fichier trouvé</p>}
           <ul>
             {scanResult.files.map((file) => (
-              <li key={file.name}>🎵 {file.name}</li>
+              <li key={file.name} className="flex gap-1"><MusicNoteIcon size={12} /> {file.name}</li>
             ))}
           </ul>
         </AccordionContent>
